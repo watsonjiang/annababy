@@ -24,7 +24,7 @@ Ext.define('Annababy.controller.Login', {
             method: 'POST',
             success: function(conn, response, options, eOpts){
                 button.up('appviewport').destroy();
-                window.location.reload();
+                window.location.assign("/login?logout");
             },
             failure: function(conn, response, options, eOpts) {
                 Annababy.util.Util.showErrorMsg(conn.responseText);

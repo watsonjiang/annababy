@@ -25,7 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/static/**").permitAll()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/logout").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -35,6 +34,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/app", true)
                 .and()
                 .logout()
+                .logoutUrl("/logout")
+                .permitAll()
+                .deleteCookies("JSESSIONID")
                 ;
     }
 
