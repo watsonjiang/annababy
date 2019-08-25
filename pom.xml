@@ -22,6 +22,7 @@
 
   <modules>
         <module>annababy-web</module>
+        <module>annababy-web-static</module>
         <module>annababy-service</module>
         <module>annababy-model</module>
   </modules>

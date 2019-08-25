@@ -1,20 +1,26 @@
 package com.watson.annababy.model;
 
+import com.watson.annababy.model.aa.RoleEntity;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
+@Table(name="user")
 @Data
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    Long id;
 
-    private String name;
-    private String email;
+    @Column(name="username", unique = true)
+    String name;
 
+    @Column(name="password")
+    String passwd;
+
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    RoleEntity role;
 }
