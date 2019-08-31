@@ -2,18 +2,13 @@ Ext.define('Annababy.view.security.UserList', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.userlist',
 
-    requires: ['Annababy.store.security.User',
-               'Annababy.store.security.Group'],
+    requires: ['Annababy.store.security.User'
+              ],
 
     frame: true,
     store: 'security.User',
 
     columns: [
-        {
-            width: 150,
-            dataIndex: 'userName',
-            text: 'Username'
-        },
         {
             width: 200,
             dataIndex: 'name',
@@ -21,18 +16,13 @@ Ext.define('Annababy.view.security.UserList', {
             text: 'Name'
         },
         {
-            width: 250,
-            dataIndex: 'email',
-            text: 'Email'
-        },
-        {
             width: 150,
-            dataIndex: 'Group_id',
-            text: 'Group',
+            dataIndex: 'role_ids',
+            text: 'Roles',
             renderer: function(value, metaData, record ){
-                var groupStore = Ext.getStore('group');
-                var group = groupStore.findRecord('id', value);
-                return group != null ? group.get('name') : value;
+                var roleStore = Ext.getStore('role');
+                roleNames = value.map(id => roleStore.findRecord('id', id) != null ? roleStore.findRecord('id', id).get('name') : id);
+                return roleNames.join(',');
             }
         }
     ]

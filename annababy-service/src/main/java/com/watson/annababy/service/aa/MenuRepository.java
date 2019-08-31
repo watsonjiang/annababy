@@ -9,5 +9,4 @@ import java.util.List;
 @Repository
 public interface MenuRepository  extends CrudRepository<MenuEntity, Long> {
 
-    List<MenuEntity> findByText(String text);
 }

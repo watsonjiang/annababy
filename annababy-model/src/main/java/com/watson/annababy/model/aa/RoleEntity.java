@@ -1,6 +1,5 @@
 package com.watson.annababy.model.aa;
 
-import com.watson.annababy.model.UserEntity;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,9 +16,15 @@ import java.util.List;
 public class RoleEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
 
-    @OneToMany(mappedBy = "role")
-    List<PermissionEntity> permList;
+    @Column(unique = true)
+    String name;
+
+    @OneToMany
+    @JoinTable(name="role_permission",
+            joinColumns = {@JoinColumn(name="role_id")},
+            inverseJoinColumns = {@JoinColumn(name="permission_id")})
+    List<PermissionEntity> permissions;
 }

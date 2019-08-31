@@ -9,7 +9,9 @@ Ext.application({
     ],
     controllers: [
         'TranslationManager',
-        'Login'
+        'Login',
+        'Menu',
+        'security.User'
     ],
     init: function() {
         Ext.Ajax.on('beforerequest',function(conn, options){

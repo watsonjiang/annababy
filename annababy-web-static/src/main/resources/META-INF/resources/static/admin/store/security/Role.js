@@ -1,19 +1,19 @@
-Ext.define('Annababy.store.security.Group', {
+Ext.define('Annababy.store.security.Role', {
     extend: 'Ext.data.Store',
 
     requires: [
-        'Annababy.model.security.Group'
+        'Annababy.model.security.Role'
     ],
 
-    model: 'Annababy.model.security.Group',
+    model: 'Annababy.model.security.Role',
 
-    storeId: 'group',
+    storeId: 'role',
 
     autoLoad: true,
 
     proxy: {
         type: 'rest',
-        url: 'group',
+        url: '/api/security/role',
 
         reader: {
             type: 'json',

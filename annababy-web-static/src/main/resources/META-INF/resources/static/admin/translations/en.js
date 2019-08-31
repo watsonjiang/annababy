@@ -14,10 +14,9 @@ translations = {
 	capsLockMsg4: 'your password.',
 
 	//Menus
-	menu1 : 'Security',
-	menu11 : 'Groups and Permissions',
-	menu12 : 'Users',
-	menu13 : 'Profile',
+	menu_security : 'Security',
+	menu_user : 'User',
+	menu_role : 'Role',
 
 	staticData: 'Static Data',
 	actors: 'Actors',

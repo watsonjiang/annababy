@@ -7,13 +7,13 @@ Ext.define('Annababy.store.security.User', {
 
     model: 'Annababy.model.security.User',
 
-    storeId: 'group',
+    storeId: 'user',
 
     autoLoad: true,
 
     proxy: {
         type: 'rest',
-        url: 'user',
+        url: '/api/security/user',
 
         reader: {
             type: 'json',

@@ -1,6 +1,5 @@
 package com.watson.annababy.model;
 
-import com.watson.annababy.model.aa.ArtifactEntity;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,20 +14,31 @@ import java.util.List;
 public class MenuEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
 
-    @Column(name="text")
-    String text;
+    /**
+     * 菜单名,内部标识
+     */
+    @Column(name="name")
+    String name;
 
-    @OneToOne
-    @JoinColumn(name="artifact_id")
-    ArtifactEntity artifact;
+    /**
+     * 所属模块名，用于鉴权
+     */
+    @Column(name="module")
+    String module;
+
+    /**
+     * 菜单打开窗口类型
+     */
+    @Column(name="classname")
+    String className;
 
     @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name="parent_id")
     MenuEntity parent;
 
     @OneToMany(mappedBy = "parent")
-    List<MenuEntity> subMenuList;
+    List<MenuEntity> subMenus;
 }

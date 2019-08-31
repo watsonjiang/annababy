@@ -1,7 +1,6 @@
 package com.watson.annababy.service.aa;
 
-import com.watson.annababy.model.UserEntity;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import com.watson.annababy.model.aa.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

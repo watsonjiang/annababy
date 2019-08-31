@@ -8,12 +8,12 @@ Ext.define('Annababy.store.Menu', {
     model: 'Annababy.model.menu.Root',
 
     proxy: {
-        type: 'ajax',
-        url: 'menu',
+        type: 'rest',
+        url: '/api/menu',
 
         reader: {
             type: 'json',
-            root: 'items'
+            root: 'data'
         },
         listeners: {
             exception: function(proxy, response, operation){

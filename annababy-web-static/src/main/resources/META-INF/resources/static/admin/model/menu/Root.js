@@ -9,10 +9,7 @@ Ext.define('Annababy.model.menu.Root', {
 
     fields: [
         {
-            name: 'text'
-        },
-        {
-            name: 'iconCls'
+            name: 'name'
         },
         {
             name: 'id'

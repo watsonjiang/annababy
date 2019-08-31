@@ -14,11 +14,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    /*
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("watson").password(passwordEncoder().encode("wapwap12")).roles("ADMIN");
     }
+    */
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

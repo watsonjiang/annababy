@@ -6,8 +6,7 @@ Ext.define('Annababy.controller.security.User', {
     ],
 
     views: [
-        'security.User',
-        'security.Profile'
+        'security.User'
     ],
 
     stores: [
@@ -51,18 +50,16 @@ Ext.define('Annababy.controller.security.User', {
             }
         });
 
-        if (!Ext.getStore('group')) {
-            Ext.create('Annababy.store.security.Group');
+        if (!Ext.getStore('role')) {
+            Ext.create('Annababy.store.security.Role');
         }    
     },
 
     onRender: function(component, options) {
-        console.log('---reload user store.');
         component.getStore().load();
     },
 
     onButtonClickAdd: function (button, e, options) {
-        console.log('----user add');
         var win = Ext.create('Annababy.view.security.Profile');
         win.setTitle('Add new User');
         win.show();

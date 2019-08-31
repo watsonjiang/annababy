@@ -15,7 +15,8 @@ Ext.define('Annababy.controller.Menu', {
     ],
     views: [
         'menu.Accordion',
-        'menu.Item'
+        'menu.Item',
+        'security.UserList'
     ],
 
     refs: [
@@ -31,19 +32,19 @@ Ext.define('Annababy.controller.Menu', {
             var menuPanel = Ext.ComponentQuery.query('mainmenu')[0];
             Ext.each(records, function(root){
                 var menu = Ext.create('Annababy.view.menu.Item',{
-                    title: translations[root.get('text')],
-                    iconCls: root.get('iconCls')
+                    title: translations[root.get('name')],
+                    iconCls: 'menu_admin'
                 });
 
                 Ext.each(root.items(), function(itens){
 
                     Ext.each(itens.data.items, function(item){
                         menu.getRootNode().appendChild({
-                            text: translations[item.get('text')],
+                            text: translations[item.get('name')],
                             leaf: true,
-                            iconCls: item.get('iconCls'),
+                            iconCls: 'menu_groups',
                             id: item.get('id'),
-                            className: item.get('className')
+                            className: item.get('classname')
                         });
                     });
                 });

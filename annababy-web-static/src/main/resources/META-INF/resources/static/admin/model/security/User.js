@@ -6,9 +6,6 @@ Ext.define('Annababy.model.security.User', {
     fields: [
         { name: 'id' },
         { name: 'name' },
-        { name: 'userName' },
-        { name: 'email' },
-        { name: 'picture' },
-        { name: 'Group_id' }
+        { name: 'role_ids' }
     ]
 });
