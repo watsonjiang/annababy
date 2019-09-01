@@ -2,7 +2,8 @@ Ext.define('Annababy.view.security.UserList', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.userlist',
 
-    requires: ['Annababy.store.security.User'
+    requires: [
+                'Annababy.store.security.User'
               ],
 
     frame: true,

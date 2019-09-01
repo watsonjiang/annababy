@@ -29,15 +29,15 @@ Ext.define('Annababy.view.security.User', {
                 },
                 {
                     xtype: 'button',
-                    text: 'Edit',
-                    itemId: 'edit',
-                    iconCls: 'edit'
-                },
-                {
-                    xtype: 'button',
                     text: 'Delete',
                     itemId: 'delete',
                     iconCls: 'delete'
+                },
+                {
+                    xtype: 'button',
+                    text: 'Save',
+                    itemId: 'save',
+                    iconCls: 'save'
                 }
             ]
         }

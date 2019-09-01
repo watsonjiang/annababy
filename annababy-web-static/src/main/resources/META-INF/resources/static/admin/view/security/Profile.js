@@ -40,47 +40,23 @@ Ext.define('Annababy.view.security.Profile', {
                             name: 'id'
                         },
                         {
-                            fieldLabel: 'Username',
-                            name: 'userName'
-                        },
-                        {
                             fieldLabel: 'Name',
                             maxLength: 100,
                             name: 'name'
                         },
                         {
-                            fieldLabel: 'Email',
+                            fieldLabel: 'Password',
                             maxLength: 100,
-                            name: 'email'
+                            name: 'password'
                         },
                         {
                             xtype: 'combobox',
-                            fieldLabel: 'Group',
-                            name: 'Group_id',
+                            fieldLabel: 'Role',
+                            name: 'role_ids',
                             displayField: 'name',
                             valueField: 'id',
-                            queryMode: 'local',
-                            store: 'security.Group'
-                        },
-                        {
-                            xtype: 'filefield',
-                            fieldLabel: 'Picture',
-                            name: 'picture',
-                            allowBlank: true,
-                            afterLabelTextTpl: ''
-                        }
-                    ]
-                },
-                {
-                    xtype: 'fieldset',
-                    title: 'Picture',
-                    width: 170,
-                    items: [
-                        {
-                            xtype: 'image',
-                            height: 150,
-                            width: 150,
-                            src: ''
+                            multiSelect: true,
+                            store: 'security.Role'
                         }
                     ]
                 }

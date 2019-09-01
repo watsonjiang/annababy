@@ -17,7 +17,15 @@ Ext.define('Annababy.store.security.User', {
 
         reader: {
             type: 'json',
-            root: 'data'
+            root: 'data',
+            successProperty: 'success'
+        },
+
+        writer: {
+            type: 'json',
+            root: 'data',
+            encode: true,
+            writeAllFields: true
         }
     }
 });
