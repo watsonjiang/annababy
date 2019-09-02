@@ -2,7 +2,7 @@ Ext.define('Annababy.controller.security.User', {
     extend: 'Ext.app.Controller',
 
     requires: [
-        'Annababy.util.Util',
+        'Annababy.util.Util'
     ],
 
     views: [

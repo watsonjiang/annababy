@@ -1,4 +1,4 @@
-Ext.define('Annababy.controller.security.Group', {
+Ext.define('Annababy.controller.security.Role', {
     extend: 'Ext.app.Controller',
 
     requires: [
@@ -6,55 +6,48 @@ Ext.define('Annababy.controller.security.Group', {
     ],
 
     views: [
-        'security.Group',
-        'security.GroupList',
-        'security.GroupEdit',
-        'security.GroupPermission'
+        'security.Role',
+        'security.RoleList',
+        'security.RoleEdit'
     ],
 
     stores: [
-        'security.Group'
+        'security.Role',
+        'security.Permission'
     ],
 
     refs: [
         {
-            ref: 'groupEdit',
-            selector: 'groupedit'
+            ref: 'roleEdit',
+            selector: 'roleedit'
         },
         {
-            ref: 'groupPermission',
-            selector: 'grouppermission'
-        },
-        {
-            ref: 'groupList',
-            selector: 'grouplist'
+            ref: 'roleList',
+            selector: 'rolelist'
         }
     ],
 
     init: function(application) {
-
+        /*
         this.control({
-            "grouplist": {
+            "rolelist": {
                 viewready: this.onViewReady,
                 selectionchange: this.onSelectionChange
             },
-            "grouplist button#add": {
+            "rolelist button#add": {
                 click: this.onButtonClickAdd
             },
-            "grouplist button#delete": {
+            "rolelist button#delete": {
                 click: this.onButtonClickDelete
             },
-            "grouppermission": {
-                checkchange: this.onCheckChange,
-                load: this.onTreeLoad
-            },
-            "groupedit button#save": {
+            "roleedit button#save": {
                 click: this.onButtonClickSave
             },
-            "groupedit button#cancel": {
+            "roleedit button#cancel": {
                 click: this.onButtonClickCancel
             }
         });
+        */
     },
 
     onViewReady: function(component, options) {
@@ -109,7 +102,7 @@ Ext.define('Annababy.controller.security.Group', {
 
     onButtonClickAdd: function (button, e, options) {
 
-    	var model = Ext.create('Annababy.model.security.Group', {
+    	var model = Ext.create('Annababy.model.security.Role', {
     		id: 0,
     		name: null
     	});
@@ -126,7 +119,7 @@ Ext.define('Annababy.controller.security.Group', {
 
     onButtonClickDelete: function (button, e, options) {
 
-    	var grid = button.up('grouplist'),
+    	var grid = button.up('rolelist'),
         tree = this.getGroupPermission(),
         formPanel = this.getGroupEdit(),
         form = this.getGroupEdit().getForm(),

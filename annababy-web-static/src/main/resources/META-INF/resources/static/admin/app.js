@@ -11,7 +11,8 @@ Ext.application({
         'TranslationManager',
         'Login',
         'Menu',
-        'security.User'
+        'security.User',
+        'security.Role'
     ],
     init: function() {
         Ext.Ajax.on('beforerequest',function(conn, options){

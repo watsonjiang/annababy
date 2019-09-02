@@ -1,10 +1,9 @@
-Ext.define('Annababy.view.security.GroupEdit', {
+Ext.define('Annababy.view.security.RoleEdit', {
     extend: 'Ext.form.Panel',
-    alias: 'widget.groupedit',
+    alias: 'widget.roleedit',
 
     requires: [
         'Annababy.util.Util',
-        //'Annababy.view.security.GroupPermission',
         'Annababy.view.security.UserList'
     ],
 
@@ -13,13 +12,13 @@ Ext.define('Annababy.view.security.GroupEdit', {
         type: 'vbox'
     },
     bodyPadding: 10,
-    title: 'Edit Selected Group',
+    title: 'Edit Selected Role',
 
     items: [
         {
             xtype: 'fieldset',
             height: 100,
-            title: 'Group Information',
+            title: 'Role Information',
             defaults: {
                 afterLabelTextTpl: Annababy.util.Util.required,
                 anchor: '100%',
@@ -34,21 +33,17 @@ Ext.define('Annababy.view.security.GroupEdit', {
                     name: 'id'
                 },
                 {
-                    fieldLabel: 'Group name',
+                    fieldLabel: 'Role name',
                     name: 'name',
                     maxLength: 45,
                     minLength: 3
                 }
             ]
         },
-        //{
-        //    xtype: 'grouppermission',
-        //    flex: 2
-        //},
         {
             xtype: 'userlist',
-            emptyText: 'No users in this group.',
-            title: 'Users in this Group',
+            emptyText: 'No users with this role.',
+            title: 'Users with this role',
             hideGroup: true,
             flex: 1
         }

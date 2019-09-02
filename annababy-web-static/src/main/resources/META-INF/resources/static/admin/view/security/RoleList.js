@@ -1,11 +1,11 @@
-Ext.define('Annababy.view.security.GroupList', {
+Ext.define('Annababy.view.security.RoleList', {
     extend: 'Ext.grid.Panel',
-    alias: 'widget.grouplist',
+    alias: 'widget.rolelist',
 
-    title: 'Groups',
+    title: 'Role',
     frame: true,
 
-    store: 'security.Group',
+    store: 'security.Role',
 
     columns: [
         {

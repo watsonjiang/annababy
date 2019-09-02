@@ -15,10 +15,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @RestController
 @Log
+@Transactional
 public class MenuController {
 
     @Autowired
@@ -30,7 +32,7 @@ public class MenuController {
     @GetMapping("/api/menu")
     public Map<String, Object> getMenu() {
 
-        MenuEntity root = menuRepository.findById(0L).get();
+        MenuEntity root = menuRepository.findById(1L).get();
 
         List<Map<String, Object>> items = new LinkedList<>();
         for(MenuEntity m : root.getSubMenus()) {
@@ -79,8 +81,7 @@ public class MenuController {
         }
 
         Set<String> requiredPermission = new HashSet<>();
-        requiredPermission.add(String.format("%s_R", m.getModule()));
-        requiredPermission.add(String.format("%s_W", m.getModule()));
+        requiredPermission.add(String.format("PERM_%s_R", m.getModule()));
 
         grantedPermissionList.retainAll(requiredPermission);
 

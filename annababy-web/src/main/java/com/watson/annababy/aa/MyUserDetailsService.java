@@ -10,9 +10,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,10 +29,12 @@ public class MyUserDetailsService implements UserDetailsService {
 
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        /*
         if("watson".equals(name)) {
             return new User("watson", passwordEncoder.encode("wapwap12"), Arrays.asList(new SimpleGrantedAuthority[]{new SimpleGrantedAuthority("ADMIN")}));
-        }
+        }*/
         UserEntity u = userRepository.findByName(name);
         if(u == null) {
             throw new UsernameNotFoundException(name);
@@ -52,5 +56,10 @@ public class MyUserDetailsService implements UserDetailsService {
 
         User user = new User(u.getName(), u.getPasswd(), aList);
         return user;
+    }
+
+    public static void main(String[] args) {
+        PasswordEncoder pe = new BCryptPasswordEncoder();
+        System.out.println("------" + pe.encode("wapwap12"));
     }
 }

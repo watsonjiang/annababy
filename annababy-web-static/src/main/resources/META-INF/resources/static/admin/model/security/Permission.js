@@ -1,4 +1,4 @@
-Ext.define('Annababy.model.security.Role', {
+Ext.define('Annababy.model.security.Permission', {
     extend: 'Ext.data.Model',
 
     idProperty: 'id',
@@ -6,6 +6,5 @@ Ext.define('Annababy.model.security.Role', {
     fields: [
         { name: 'id' },
         { name: 'name' },
-        { name: 'permission_ids'}
     ]
 });

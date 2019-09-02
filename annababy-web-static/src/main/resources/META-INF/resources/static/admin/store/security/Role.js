@@ -18,6 +18,13 @@ Ext.define('Annababy.store.security.Role', {
         reader: {
             type: 'json',
             root: 'data'
+        },
+
+        writer: {
+            type: 'json',
+            root: 'data',
+            encode: true,
+            writeAllFields: true
         }
     }
 });

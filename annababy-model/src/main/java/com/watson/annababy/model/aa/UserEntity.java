@@ -20,7 +20,7 @@ public class UserEntity {
     @Column(name="password")
     String passwd;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(name="user_role",
     joinColumns = {@JoinColumn(name="user_id")},
     inverseJoinColumns = {@JoinColumn(name="role_id")})
