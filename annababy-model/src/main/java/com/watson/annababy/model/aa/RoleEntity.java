@@ -27,4 +27,7 @@ public class RoleEntity {
             joinColumns = {@JoinColumn(name="role_id")},
             inverseJoinColumns = {@JoinColumn(name="permission_id")})
     List<PermissionEntity> permissions;
+
+    @ManyToMany(mappedBy = "roles")
+    List<UserEntity> users;
 }

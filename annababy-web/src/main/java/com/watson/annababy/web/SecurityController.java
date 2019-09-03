@@ -33,9 +33,17 @@ public class SecurityController {
 
     @PreAuthorize("hasAuthority('PERM_USER_R')")
     @GetMapping("/api/security/user")
-    public ApiResponse listUser() {
+    public ApiResponse listUser(@RequestParam(name="role_id", required = false) Long roleId) {
         List<Map<String, Object>> userList = new LinkedList<>();
-        for (UserEntity u : userRepository.findAll()) {
+        Iterable<UserEntity> users = null;
+
+        if(null == roleId) {
+            users = userRepository.findAll();
+        }else{
+            users = userRepository.findByRoleId(roleId);
+        }
+
+        for (UserEntity u : users) {
             Map<String, Object> userObj = new HashMap<>();
             userObj.put("id", u.getId());
             userObj.put("name", u.getName());
@@ -45,6 +53,7 @@ public class SecurityController {
 
         return ApiResponse.buildSuccessResp(userList);
     }
+
 
     @PreAuthorize("hasAuthority('PERM_USER_W')")
     @PostMapping("/api/security/user")

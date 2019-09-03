@@ -28,7 +28,6 @@ Ext.define('Annababy.controller.security.Role', {
     ],
 
     init: function(application) {
-        /*
         this.control({
             "rolelist": {
                 viewready: this.onViewReady,
@@ -47,13 +46,11 @@ Ext.define('Annababy.controller.security.Role', {
                 click: this.onButtonClickCancel
             }
         });
-        */
     },
 
     onViewReady: function(component, options) {
 
     	component.getStore().load(function(records, operation, success) {
-
     		if (records.length > 0){
     			component.getSelectionModel().select(0);
     		}
@@ -63,21 +60,15 @@ Ext.define('Annababy.controller.security.Role', {
     onSelectionChange: function (sm, records, options) {
 
     	if (records[0]) {
-            this.getGroupEdit().getForm().loadRecord(records[0]);
+            this.getRoleEdit().getForm().loadRecord(records[0]);
 
-            this.getGroupPermission().getStore().load({
-            	params: {
-            		group: records[0].get('id')
-            	}
-            });
-
-            this.getGroupEdit().down('userlist').getStore().load({
+            this.getRoleEdit().down('userlist').getStore().load({
                 params: {
-                    group: records[0].get('id')
+                    role_id: records[0].get('id')
                 }
             });
 
-            this.getGroupEdit().setDisabled(false);
+            this.getRoleEdit().setDisabled(false);
         }
 
     },

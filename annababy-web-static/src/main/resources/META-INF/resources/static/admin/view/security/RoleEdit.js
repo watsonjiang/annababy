@@ -41,12 +41,25 @@ Ext.define('Annababy.view.security.RoleEdit', {
             ]
         },
         {
+            xtype: 'fieldset',
+            title: 'Users with this role',
+            flex: 1,
+            items: [
+                {
+                    xtype: 'userlist',
+                    emptyText: 'No users with this role',
+                    border: 0
+                }
+            ]
+        },
+        /*
+        {
             xtype: 'userlist',
             emptyText: 'No users with this role.',
-            title: 'Users with this role',
+            //title: 'Users with this role',
             hideGroup: true,
             flex: 1
-        }
+        }*/
     ],
     dockedItems: [
         {
