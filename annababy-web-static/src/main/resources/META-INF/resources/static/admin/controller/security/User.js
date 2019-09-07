@@ -26,17 +26,14 @@ Ext.define('Annababy.controller.security.User', {
     init: function(application) {
 
         this.control({
-            "userlist": {
+            "user userlist": {
                 render: this.onRender
             },
-            "userlist dataview": {
+            "user userlist dataview": {
                 itemdblclick: this.onButtonClickEdit
             },
             "user button#add": {
                 click: this.onButtonClickAdd
-            },
-            "user button#save": {
-                click: this.onButtonClickSave
             },
             "user button#delete": {
                 click: this.onButtonClickDelete
@@ -82,21 +79,13 @@ Ext.define('Annababy.controller.security.User', {
         store = grid.getStore();
 
         store.remove(record);
-    },
-
-    onButtonClickSave: function (button, e, options) {
-        var grid = this.getUserList(),
-            store = grid.getStore();
 
         store.sync({
-            callback: function(batch, options) {
-                console.log('----------callback');
-            },
             success: function(batch, options) {
-                console.log('---------success');
             },
             failure: function(batch, options) {
-                console.log('---------failure');
+                store.rejectChanges();
+                Annababy.util.Util.showErrorMsg('Delete failed.');
             }
         });
     },
@@ -105,22 +94,30 @@ Ext.define('Annababy.controller.security.User', {
         
         var win = button.up('window'),
             formPanel = win.down('form'),
-            record = formPanel.getRecord(),
-            values = formPanel.getValues(),
             store = this.getUserList().getStore();
 
         if (formPanel.getForm().isValid()) {
+            var record = formPanel.getRecord(),
+                values = formPanel.getValues();
 
             if(record) {
                 record.set(values);
-                record.setDirty();
             }else{
                 record = Ext.create('Annababy.model.security.User');
                 record.set(values);
                 store.add(record);
             }
 
-            win.close();
+            store.sync({
+                success: function(batch, options) {
+                    win.close();
+                },
+                failure: function(batch, options) {
+                    store.rejectChanges();
+                    var errorCode = batch.operations[0].error.status;
+                    Annababy.util.Util.showErrorMsg('Save failed. errorCode:' + errorCode);
+                }
+            });
         }
     },
 

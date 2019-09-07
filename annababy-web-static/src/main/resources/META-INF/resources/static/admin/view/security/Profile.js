@@ -47,7 +47,10 @@ Ext.define('Annababy.view.security.Profile', {
                         {
                             fieldLabel: 'Password',
                             maxLength: 100,
-                            name: 'password'
+                            name: 'password',
+                            allowBlank: true,
+                            inputType: 'password',
+                            emptyText: '<Reset password>'
                         },
                         {
                             xtype: 'combobox',
@@ -56,6 +59,7 @@ Ext.define('Annababy.view.security.Profile', {
                             displayField: 'name',
                             valueField: 'id',
                             multiSelect: true,
+                            editable: false,
                             store: 'security.Role'
                         }
                     ]

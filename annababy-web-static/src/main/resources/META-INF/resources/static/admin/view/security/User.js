@@ -32,12 +32,6 @@ Ext.define('Annababy.view.security.User', {
                     text: 'Delete',
                     itemId: 'delete',
                     iconCls: 'delete'
-                },
-                {
-                    xtype: 'button',
-                    text: 'Save',
-                    itemId: 'save',
-                    iconCls: 'save'
                 }
             ]
         }

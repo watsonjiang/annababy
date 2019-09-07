@@ -8,8 +8,11 @@ import com.watson.annababy.model.aa.UserEntity;
 import com.watson.annababy.service.aa.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import sun.security.util.Password;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
@@ -30,6 +33,9 @@ public class SecurityController {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @PreAuthorize("hasAuthority('PERM_USER_R')")
     @GetMapping("/api/security/user")
@@ -98,7 +104,10 @@ public class SecurityController {
         if(!userObj.containsKey("id") || "" == userObj.get("id")) {
             UserEntity user = new UserEntity();
             user.setName((String) userObj.get("name"));
-            user.setPasswd((String) userObj.get("password"));
+            String password = (String) userObj.get("password");
+            if(!StringUtils.isEmpty(password)) {
+                user.setPasswd(passwordEncoder.encode(password));
+            }
             List<Integer> roleIds = (List<Integer>)userObj.get("role_ids");
             List<RoleEntity> roles = new LinkedList<>();
             for(Integer id : roleIds) {
@@ -111,7 +120,10 @@ public class SecurityController {
             Long id = Long.valueOf((String)userObj.get("id"));
             UserEntity user = userRepository.findById(id).get();
             user.setName((String)userObj.get("name"));
-            user.setPasswd((String)userObj.get("password"));
+            String password = (String) userObj.get("password");
+            if(!StringUtils.isEmpty(password)) {
+                user.setPasswd(passwordEncoder.encode(password));
+            }
             List<Integer> roleIds = (List<Integer>)userObj.get("role_ids");
             List<RoleEntity> roles = new LinkedList<>();
             for(Integer rid : roleIds) {
@@ -197,7 +209,7 @@ public class SecurityController {
     @PreAuthorize("hasAuthority('PERM_ROLE_W')")
     @DeleteMapping("/api/security/role/{id}")
     public ApiResponse deleteRole(@PathVariable Long id) {
-        permRepository.deleteById(id);
+        roleRepository.deleteById(id);
         return ApiResponse.buildSuccessResp(null);
     }
 

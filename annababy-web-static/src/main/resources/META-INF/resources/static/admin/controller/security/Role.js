@@ -18,8 +18,8 @@ Ext.define('Annababy.controller.security.Role', {
 
     refs: [
         {
-            ref: 'roleEdit',
-            selector: 'roleedit'
+            ref: 'roleInfo',
+            selector: 'roleinfo'
         },
         {
             ref: 'roleList',
@@ -29,22 +29,23 @@ Ext.define('Annababy.controller.security.Role', {
 
     init: function(application) {
         this.control({
-            "rolelist": {
+            "role rolelist": {
                 viewready: this.onViewReady,
-                selectionchange: this.onSelectionChange
+                selectionchange: this.onSelectionChange,
+                itemdblclick: this.onButtonClickEdit
             },
-            "rolelist button#add": {
+            "role button#add": {
                 click: this.onButtonClickAdd
             },
-            "rolelist button#delete": {
+            "role button#delete": {
                 click: this.onButtonClickDelete
             },
             "roleedit button#save": {
-                click: this.onButtonClickSave
+                click: this.onRoleEditSave
             },
             "roleedit button#cancel": {
-                click: this.onButtonClickCancel
-            }
+                click: this.onRoleEditCancel
+            },
         });
     },
 
@@ -60,193 +61,85 @@ Ext.define('Annababy.controller.security.Role', {
     onSelectionChange: function (sm, records, options) {
 
     	if (records[0]) {
-            this.getRoleEdit().getForm().loadRecord(records[0]);
+            this.getRoleInfo().getForm().loadRecord(records[0]);
 
-            this.getRoleEdit().down('userlist').getStore().load({
+            this.getRoleInfo().down('userlist').getStore().load({
                 params: {
                     role_id: records[0].get('id')
                 }
             });
 
-            this.getRoleEdit().setDisabled(false);
+            this.getRoleInfo().setDisabled(false);
         }
 
-    },
-
-    onCheckChange: function (node, checked, options) {
-
-        if (node.isLeaf() && checked) {
-            node.parentNode.set('checked', checked);
-        } else if (!node.isLeaf()) {
-            node.cascadeBy(function(n){
-                n.set('checked', checked);
-            });
-        }
-    },
-
-    onTreeLoad: function (component, node, records, successful, options) {
-
-        node.cascadeBy(function(n){
-            n.set('text', translations[n.get('text')]);
-        });
     },
 
     onButtonClickAdd: function (button, e, options) {
 
-    	var model = Ext.create('Annababy.model.security.Role', {
-    		id: 0,
-    		name: null
-    	});
+        var win = Ext.create('Annababy.view.security.RoleEdit');
+        win.setTitle('Add new Role');
+        win.show();
+    },
 
-    	this.getGroupEdit().getForm().loadRecord(model);
+    onButtonClickEdit: function (grid, record) {
+        if(record){
+            var editWindow = Ext.create('Annababy.view.security.RoleEdit');
+            editWindow.down('form').loadRecord(record);
 
-    	this.getGroupPermission().getStore().load();
-
-        this.getGroupEdit().down('userlist').getStore().removeAll();
-
-        this.getGroupEdit().setDisabled(false);
-
+            editWindow.setTitle(record.get('name'));
+            editWindow.show();
+        }
     },
 
     onButtonClickDelete: function (button, e, options) {
+        var grid = this.getRoleList(),
+            record = grid.getSelectionModel().getSelection(),
+            store = grid.getStore();
 
-    	var grid = button.up('rolelist'),
-        tree = this.getGroupPermission(),
-        formPanel = this.getGroupEdit(),
-        form = this.getGroupEdit().getForm(),
-        usersGrid = formPanel.down('userlist'),
-    	record = grid.getSelectionModel().getSelection(),
-        store = grid.getStore();
+        store.remove(record);
 
-        if (store.getCount() >= 2 && record[0] && usersGrid.getStore().getCount() == 0){
-
-        	Ext.Msg.show({
-			     title:'Delete?',
-			     msg: 'Are you sure you want to delete?',
-			     buttons: Ext.Msg.YESNO,
-			     icon: Ext.Msg.QUESTION,
-			     fn: function (buttonId){
-			     	if (buttonId == 'yes'){
-			     		Ext.Ajax.request({
-                            url: 'php/security/deleteGroup.php',
-                            params: {
-                                id: record[0].get('id')
-                            },
-                            success: function(conn, response, options, eOpts) {
-
-                                var result = Annababy.util.Util.decodeJSON(conn.responseText);
-
-                                if (result.success) {
-
-                                    Annababy.util.Alert.msg('Success!', 'Group deleted.');
-                                    store.load();
-                                    form.reset();
-                                    formPanel.setDisabled(true);
-                                    usersGrid.getStore().removeAll();
-                                    tree.getStore().load();
-
-                                } else {
-                                    Annababy.util.Util.showErrorMsg(conn.responseText);
-                                }
-                            },
-                            failure: function(conn, response, options, eOpts) {
-
-                                Annababy.util.Util.showErrorMsg(conn.responseText);
-                            }
-                        });
-			     	}
-			     }
-			});
-        } else if (store.getCount() == 1) {
-        	Ext.Msg.show({
-                title:'Warning',
-                msg: 'You cannot delete all the groups from the application.',
-                buttons: Ext.Msg.OK,
-                icon: Ext.Msg.WARNING
-            });
-        } else if (usersGrid.getStore().getCount() > 0){
-            Ext.Msg.show({
-                title:'Warning',
-                msg: 'You cannot delete groups that have users in it.',
-                buttons: Ext.Msg.OK,
-                icon: Ext.Msg.WARNING
-            });
-        }
-    },
-
-    resetForm: function(){
-
-        var form = this.getGroupEdit();
-
-        this.getGroupPermission().getStore().load();
-
-        form.down('userlist').getStore().removeAll();
-
-        form.disable();
-
-        form.getForm().reset();
-    },
-
-    onButtonClickCancel: function(button, e, options) {
-        this.resetForm();
-    },
-
-    onButtonClickSave: function (button, e, options) {
-
-        var store = this.getGroupList().getStore(),
-        formPanel = button.up('form'),
-        records = formPanel.down('treepanel').getView().getChecked(),
-        names = [];
-
-        Ext.Array.each(records, function(rec){
-            names.push(rec.get('id'));
+        store.sync({
+            success: function(batch, options) {
+            },
+            failure: function(batch, options) {
+                store.rejectChanges();
+                Annababy.util.Util.showErrorMsg('Delete failed.');
+            }
         });
+    },
 
-        if (formPanel.getForm().isValid()){
-        	if (names.length == 0){
-	        	Ext.Msg.show({
-				    title:'Warning',
-				    msg: 'You need to select a least one permission for this group.',
-				    buttons: Ext.Msg.OK,
-				    icon: Ext.Msg.WARNING
-				});
-	        } else {
+    onRoleEditSave: function(button, e, options) {
+        var win = button.up('window'),
+            formPanel = win.down('form'),
+            store = this.getRoleList().getStore();
 
-	        	var values = formPanel.getValues();
+        if (formPanel.getForm().isValid()) {
+            var record = formPanel.getRecord(),
+                values = formPanel.getValues();
 
-                Ext.get(formPanel.getEl()).mask("Saving... Please wait...", 'loading');
+            if(record) {
+                record.set(values);
+            }else{
+                record = Ext.create('Annababy.model.security.Role');
+                record.set(values);
+                store.add(record);
+            }
 
-	        	Ext.Ajax.request({
-	                url: 'php/security/saveGroup.php',
-	                params: {
-	                    id: values.id,
-	                    name: values.name,
-	                    permissions: names.toString()
-	                },
-	                success: function(conn, response, options, eOpts) {
-
-	                    Ext.get(formPanel.getEl()).unmask();
-
-	                    var result = Annababy.util.Util.decodeJSON(conn.responseText);
-
-	                    if (result.success) {
-
-	                        Annababy.util.Alert.msg('Success!', 'Group saved.');
-                            store.load();
-                            formPanel.setDisabled(true);
-
-	                    } else {
-	                        Annababy.util.Util.showErrorMsg(conn.responseText);
-	                    }
-	                },
-	                failure: function(conn, response, options, eOpts) {
-
-	                    Ext.get(formPanel.getEl()).unmask();
-
-	                    Annababy.util.Util.showErrorMsg(conn.responseText);
-	                }
-	            });
-	        }
+            store.sync({
+                success: function(batch, options) {
+                    win.close();
+                },
+                failure: function(batch, options) {
+                    store.rejectChanges();
+                    var errorCode = batch.operations[0].error.status;
+                    Annababy.util.Util.showErrorMsg('Save failed. errorCode:' + errorCode);
+                }
+            });
         }
+    },
+
+    onRoleEditCancel: function(button, e, options) {
+        button.up('window').close();
     }
+
 });

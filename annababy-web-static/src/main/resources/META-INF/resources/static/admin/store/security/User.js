@@ -1,6 +1,6 @@
 Ext.define('Annababy.store.security.User', {
     extend: 'Ext.data.Store',
-
+    alias: 'store.user',
     requires: [
         'Annababy.model.security.User'
     ],

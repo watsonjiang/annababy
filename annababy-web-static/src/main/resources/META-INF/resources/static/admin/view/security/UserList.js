@@ -21,7 +21,7 @@ Ext.define('Annababy.view.security.UserList', {
             text: 'Roles',
             flex: 1,
             renderer: function(value, metaData, record ){
-                var roleStore = Ext.getStore('role');
+                var roleStore = Ext.getStore('security.Role');
                 roleNames = value.map(id => roleStore.findRecord('id', id) != null ? roleStore.findRecord('id', id).get('name') : id);
                 return roleNames.join(',');
             }

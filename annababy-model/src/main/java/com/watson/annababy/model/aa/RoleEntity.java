@@ -22,7 +22,7 @@ public class RoleEntity {
     @Column(unique = true)
     String name;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(name="role_permission",
             joinColumns = {@JoinColumn(name="role_id")},
             inverseJoinColumns = {@JoinColumn(name="permission_id")})

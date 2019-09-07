@@ -1,71 +1,71 @@
 Ext.define('Annababy.view.security.RoleEdit', {
-    extend: 'Ext.form.Panel',
+    extend: 'Ext.window.Window',
     alias: 'widget.roleedit',
 
-    requires: [
-        'Annababy.util.Util',
-        'Annababy.view.security.UserList'
-    ],
+    height: 260,
+    width: 550,
+
+    requires: ['Annababy.util.Util'],
 
     layout: {
         align: 'stretch',
         type: 'vbox'
     },
-    bodyPadding: 10,
-    title: 'Edit Selected Role',
+    title: 'Role',
 
     items: [
         {
-            xtype: 'fieldset',
-            height: 100,
-            title: 'Role Information',
-            defaults: {
-                afterLabelTextTpl: Annababy.util.Util.required,
-                anchor: '100%',
-                xtype: 'textfield',
-                allowBlank: false,
-                msgTarget: 'under'
+            xtype: 'form',
+            bodyPadding: 5,
+            layout: {
+                type: 'hbox',
+                align: 'stretch'
             },
             items: [
                 {
-                    xtype: 'hiddenfield',
-                    fieldLabel: 'Label',
-                    name: 'id'
-                },
-                {
-                    fieldLabel: 'Role name',
-                    name: 'name',
-                    maxLength: 45,
-                    minLength: 3
+                    xtype: 'fieldset',
+                    flex: 2,
+                    title: 'Role Information',
+                    defaults: {
+                        afterLabelTextTpl: Annababy.util.Util.required,
+                        anchor: '100%',
+                        xtype: 'textfield',
+                        allowBlank: false,
+                        labelWidth: 100
+                    },
+                    items: [
+                        {
+                            xtype: 'hiddenfield',
+                            fieldLabel: 'Label',
+                            name: 'id'
+                        },
+                        {
+                            fieldLabel: 'Role name',
+                            name: 'name',
+                            maxLength: 45,
+                            minLength: 3
+                        },
+                        {
+                            xtype: 'combobox',
+                            fieldLabel: 'Permissions',
+                            name: 'permission_ids',
+                            displayField: 'name',
+                            valueField: 'id',
+                            multiSelect: true,
+                            editable: false,
+                            store: 'security.Permission'
+                        }
+                    ]
                 }
             ]
-        },
-        {
-            xtype: 'fieldset',
-            title: 'Users with this role',
-            flex: 1,
-            items: [
-                {
-                    xtype: 'userlist',
-                    emptyText: 'No users with this role',
-                    border: 0
-                }
-            ]
-        },
-        /*
-        {
-            xtype: 'userlist',
-            emptyText: 'No users with this role.',
-            //title: 'Users with this role',
-            hideGroup: true,
-            flex: 1
-        }*/
+        }
     ],
     dockedItems: [
         {
             xtype: 'toolbar',
             flex: 1,
             dock: 'bottom',
+            ui: 'footer',
             layout: {
                 pack: 'end',
                 type: 'hbox'
@@ -86,5 +86,4 @@ Ext.define('Annababy.view.security.RoleEdit', {
             ]
         }
     ]
-
 });
