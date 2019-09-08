@@ -5,6 +5,8 @@ Ext.define('Annababy.view.security.RoleEdit', {
     height: 260,
     width: 550,
 
+    modal: true,
+
     requires: ['Annababy.util.Util'],
 
     layout: {

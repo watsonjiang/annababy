@@ -1,24 +1,11 @@
 Ext.define('Annababy.view.MainPanel', {
-    extend: 'Ext.tab.Panel',
+    extend: 'Ext.panel.Panel',
     alias: 'widget.mainpanel',
 
-    requires: [
-        'Ext.ux.IFrame'
-    ],
-
-    activeTab: 0,
+    layout: {
+        type: 'fit'
+    },
 
     items: [
-        {
-            xtype: 'panel',
-            closable: false,
-            iconCls: 'home',
-            title: 'Home',
-            layout: 'fit'
-            // items: [{
-            //     xtype: 'uxiframe',
-            //     src: 'http://www.packtpub.com/mastering-ext-javascript/book'
-            // }]
-        }
     ]
 });

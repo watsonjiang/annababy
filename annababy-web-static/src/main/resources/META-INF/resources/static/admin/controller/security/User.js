@@ -53,6 +53,7 @@ Ext.define('Annababy.controller.security.User', {
 
     onRender: function(component, options) {
         component.getStore().load();
+        Ext.getStore('security.Role').load();
     },
 
     onButtonClickAdd: function (button, e, options) {

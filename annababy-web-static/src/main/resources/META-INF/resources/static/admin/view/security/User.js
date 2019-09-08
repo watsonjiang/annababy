@@ -12,7 +12,8 @@ Ext.define('Annababy.view.security.User', {
 
     items: [
         {
-            xtype: 'userlist'
+            xtype: 'userlist',
+            border: false
         }
     ],
     dockedItems: [

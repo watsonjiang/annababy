@@ -6,7 +6,7 @@ Ext.define('Annababy.view.security.UserList', {
                 'Annababy.store.security.User'
               ],
 
-    frame: true,
+    frame: false,
     store: 'security.User',
 
     columns: [

@@ -32,7 +32,8 @@ Ext.define('Annababy.controller.security.Role', {
             "role rolelist": {
                 viewready: this.onViewReady,
                 selectionchange: this.onSelectionChange,
-                itemdblclick: this.onButtonClickEdit
+                itemdblclick: this.onButtonClickEdit,
+                render: this.onRender
             },
             "role button#add": {
                 click: this.onButtonClickAdd
@@ -46,6 +47,9 @@ Ext.define('Annababy.controller.security.Role', {
             "roleedit button#cancel": {
                 click: this.onRoleEditCancel
             },
+            "role roleinfo userlist": {
+                render: this.onRender
+            }
         });
     },
 
@@ -57,6 +61,11 @@ Ext.define('Annababy.controller.security.Role', {
     		}
     	});
     },
+
+    onRender: function(component, options) {
+        component.getStore().load();
+    },
+
 
     onSelectionChange: function (sm, records, options) {
 
@@ -128,6 +137,15 @@ Ext.define('Annababy.controller.security.Role', {
             store.sync({
                 success: function(batch, options) {
                     win.close();
+                    /*
+                    var cmpArray = Ext.ComponentQuery.query("user userlist");
+                    if(0 != cmpArray.length) {
+                        var userlistStore = cmpArray[0].getStore();
+                        if(userlistStore) {
+                            userlistStore.load();  //更新store
+                        }
+                    }
+                    */
                 },
                 failure: function(batch, options) {
                     store.rejectChanges();

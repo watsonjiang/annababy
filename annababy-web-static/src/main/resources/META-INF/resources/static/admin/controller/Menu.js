@@ -1,10 +1,5 @@
 Ext.define('Annababy.controller.Menu', {
     extend: 'Ext.app.Controller',
-    /*
-    requires: [
-        'Annababy.view.security.Profile',
-        'Annababy.view.security.GroupPermission'
-    ],*/
 
     models: [
         'menu.Root',
@@ -16,7 +11,6 @@ Ext.define('Annababy.controller.Menu', {
     views: [
         'menu.Accordion',
         'menu.Item',
-        'security.UserList'
     ],
 
     refs: [
@@ -58,21 +52,10 @@ Ext.define('Annababy.controller.Menu', {
 
         var mainPanel = this.getMainPanel();
 
-        var newTab = mainPanel.items.findBy(
-        function (tab){
-            return tab.title === record.get('text');
+        mainPanel.removeAll();
+        mainPanel.add({
+            xtype: record.raw.className
         });
-
-        if (!newTab){
-            newTab = mainPanel.add({
-                xtype: record.raw.className,
-                closable: true,
-                iconCls: record.get('iconCls'),
-                title: record.get('text')
-            });
-        }
-
-        mainPanel.setActiveTab(newTab);
     },
 
     onTreepanelItemClick: function(view, record, item, index, event, options){
